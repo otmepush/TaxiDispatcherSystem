@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = "Сторінка Запитів";
+}
+<h2>@ViewData["Title"]</h2>
+<p>Оберіть запит для виконання:</p>
+
+<ul class="list-group">
+    <li class="list-group-item"><a asp-action="DriverPerformance">Звіт: Ефективність та заробіток водіїв</a></li>
+    <li class="list-group-item"><a asp-action="Query1_AvailableDrivers">Показати доступних водіїв (Фільтрація)</a></li>
+    <li class="list-group-item"><a asp-action="Query3_TodayRevenue">Дохід за сьогодні (Агрегація)</a></li>
+    <li class="list-group-item"><a asp-action="Query6_AddDriver" asp-controller="Report">Додати нового водія (Додавання)</a></li>
+</ul>

@@ -1,0 +1,59 @@
+@model TaxiDispatcherSystem.Models.Order
+@{
+    ViewData["Title"] = "Панель Водія";
+}
+
+<h2>Панель Водія (Ваш ID: @ViewBag.DriverId)</h2>
+<hr />
+
+@if (Model == null)
+{
+    <div class="alert alert-success mt-4">
+        <h4>@ViewBag.Message</h4>
+        <p>Ваш статус: <b>Доступний</b>. Очікуйте на нові замовлення від диспетчера.</p>
+    </div>
+}
+else
+{
+    <div class="card p-4 mt-3">
+        <h3>Активне Замовлення #@Model.Id</h3>
+        
+        <div class="mt-3">
+            <h4>Поточний Статус: <strong style="color: @(Model.Статус == "В_ПРОЦЕСІ" ? "blue" : "red");">@Model.Статус</strong></h4>
+            
+            <dl class="row mt-3">
+                <dt class="col-sm-4">Адреса Призначення:</dt>
+                <dd class="col-sm-8">@Model.МісцеПризначення?.Адреса</dd>
+                
+                <dt class="col-sm-4">Адреса Відправлення:</dt>
+                <dd class="col-sm-8">@Model.МісцеВідправлення?.Адреса</dd>
+            </dl>
+        </div>
+
+        <hr/>
+
+        @if (Model.Статус == "ПРИЗНАЧЕНО_ВОДІЯ")
+        {
+            <p>Ви прибули до клієнта. Розпочніть поїздку.</p>
+            <form asp-action="StartRide" method="post">
+                <input type="hidden" name="orderId" value="@Model.Id" />
+                <button type="submit" class="btn btn-warning btn-lg">Почати Поїздку</button>
+            </form>
+        }
+        else if (Model.Статус == "В_ПРОЦЕСІ")
+        {
+            <p>Поїздка триває. Після прибуття завершіть замовлення.</p>
+            <form asp-action="Complete" method="post">
+                <input type="hidden" name="orderId" value="@Model.Id" />
+                <button type="submit" class="btn btn-success btn-lg">Завершити Поїздку</button>
+            </form>
+        }
+    </div>
+}
+
+<div class="mt-4">
+    @if (User.IsInRole("Dispatcher"))
+    {
+        <a asp-controller="Dispatcher" asp-action="Index">Перейти до Панелі Диспетчера</a>
+    }
+</div>

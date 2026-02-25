@@ -1,0 +1,44 @@
+@model IEnumerable<TaxiDispatcherSystem.Models.Client>
+
+@{
+    ViewData["Title"] = "Керування Клієнтами";
+}
+
+<h2>Список Клієнтів</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Додати нового клієнта</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ім'я</th>
+            <th>Прізвище</th>
+            <th>Телефон</th>
+            <th>Email</th>
+            <th>Статус</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Ім_я</td>
+            <td>@item.Прізвище</td>
+            <td>@item.Телефон</td>
+            <td>@item.Email</td>
+            <td>
+                @if(item.ClientStatus == "IN_RIDE") { <span class="badge bg-danger">В дорозі</span> }
+                else if(item.ClientStatus == "AWAITING_DRIVER") { <span class="badge bg-warning text-dark">Очікує</span> }
+                else { <span class="badge bg-success">Вільний</span> }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Ред.</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Вид.</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

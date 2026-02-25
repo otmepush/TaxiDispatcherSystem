@@ -1,0 +1,59 @@
+@model IEnumerable<TaxiDispatcherSystem.Models.Driver>
+
+@{
+    ViewData["Title"] = "Керування Водіями";
+    var activeDriverIds = (List<int?>)ViewBag.ActiveDriverIds;
+}
+
+<h2>@ViewData["Title"]</h2>
+<p>Тут можна примусово змінити статус водія, якщо він "застряг".</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ім'я</th>
+            <th>Поточний статус</th>
+            <th>Дія</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Ім_я @item.Прізвище</td>
+                <td>
+                    @if (item.Доступний)
+                    {
+                        <span class="badge bg-success">Доступний</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Зайнятий</span>
+                    }
+                </td>
+                <td>
+                    @if (activeDriverIds.Contains(item.Id))
+                    {
+                        <button class="btn btn-sm btn-secondary" disabled>На активному замовленні</button>
+                    }
+                    else
+                    {
+                        <form asp-action="ToggleDriverStatus" method="post" style="display:inline;">
+                            <input type="hidden" name="driverId" value="@item.Id" />
+                            @if (item.Доступний)
+                            {
+                                <button type="submit" class="btn btn-sm btn-warning">Зробити зайнятим</button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-sm btn-success">Зробити доступним</button>
+                            }
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

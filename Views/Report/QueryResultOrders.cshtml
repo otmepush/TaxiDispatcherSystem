@@ -1,0 +1,22 @@
+@model IEnumerable<TaxiDispatcherSystem.Models.Order>
+@{
+    ViewData["Title"] = "Результат Запиту";
+}
+<h3>@ViewBag.QueryTitle</h3>
+<table class="table">
+    <thead>
+        <tr><th>ID</th><th>Клієнт</th><th>Водій</th><th>Статус</th></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Клієнт?.Ім_я</td>
+                <td>@(item.ПризначенийВодій?.Ім_я ?? "N/A")</td>
+                <td>@item.Статус</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Index">Повернутися до звітів</a>

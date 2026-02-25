@@ -1,0 +1,48 @@
+@model TaxiDispatcherSystem.Models.Driver
+
+@{
+    ViewData["Title"] = "Реєстрація Нового Водія";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="CreateDriver" method="post">
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <h4>Основна інформація</h4>
+            <div class="form-group mb-3">
+                <label asp-for="Ім_я" class="control-label">Ім'я</label>
+                <input asp-for="Ім_я" class="form-control" required/>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Прізвище" class="control-label">Прізвище</label>
+                <input asp-for="Прізвище" class="form-control" required/>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Телефон" class="control-label">Телефон</label>
+                <input asp-for="Телефон" class="form-control" required/>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control" required/>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="АвтомобільId" class="control-label">Призначити Автомобіль</label>
+                <select asp-for="АвтомобільId" class="form-control" asp-items="ViewBag.AvailableVehicles">
+                    <option value="">-- Без автомобіля --</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="Зареєструвати Водія" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Повернутися до панелі диспетчера</a>
+</div>

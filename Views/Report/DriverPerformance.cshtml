@@ -1,0 +1,79 @@
+@model IEnumerable<TaxiDispatcherSystem.Models.DriverReportViewModel>
+
+@{
+    ViewData["Title"] = "Ефективність Водіїв";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Звіт по ефективності водіїв</h2>
+    
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Загальний дохід парку</div>
+                <div class="card-body">
+                    <h4 class="card-title">@Model.Sum(x => x.TotalEarnings).ToString("N2") UAH</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">Всього поїздок</div>
+                <div class="card-body">
+                    <h4 class="card-title">@Model.Sum(x => x.CompletedRides)</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+             <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Топ-водій</div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        @(Model.OrderByDescending(x=>x.TotalEarnings).FirstOrDefault()?.FullName ?? "Н/Д")
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover table-bordered shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Водій</th>
+                <th>Автомобіль</th>
+                <th class="text-center">Поїздок</th>
+                <th class="text-end">Зароблено (UAH)</th>
+                <th class="text-center">Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@item.FullName</td>
+                    <td>@item.CarInfo</td>
+                    <td class="text-center">
+                        <span class="badge bg-secondary rounded-pill">@item.CompletedRides</span>
+                    </td>
+                    <td class="text-end text-success fw-bold">
+                        @item.TotalEarnings.ToString("N2")
+                    </td>
+                    <td class="text-center">
+                        @if (item.TotalEarnings > 0)
+                        {
+                            <span class="text-success">Активний</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Неактивний</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <div class="mt-3">
+        <a asp-action="Index" class="btn btn-outline-secondary">← Повернутися до меню звітів</a>
+    </div>
+</div>

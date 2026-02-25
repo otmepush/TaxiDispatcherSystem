@@ -1,0 +1,53 @@
+@model IEnumerable<TaxiDispatcherSystem.Models.Order>
+
+@{
+    ViewData["Title"] = "Звіт по Виконаних Поїздках";
+    double totalRevenue = (double)ViewBag.TotalRevenue;
+    int totalRides = (int)ViewBag.TotalRides;
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Загальний Дохід</h5>
+                <p class="card-text"><h2>@totalRevenue.ToString("N2") UAH</h2></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Кількість Виконаних Поїздок</h5>
+                <p class="card-text"><h2>@totalRides</h2></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Замовлення</th>
+            <th>Адреса Відправлення</th>
+            <th>Сума Оплати</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.МісцеВідправлення?.Адреса</td>
+                <td>@item.Оплата?.Сума.ToString("N2")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Index">Повернутися до панелі диспетчера</a>
+</p>

@@ -1,0 +1,43 @@
+@model TaxiDispatcherSystem.Models.Vehicle
+
+@{
+    ViewData["Title"] = "Видалення автомобіля";
+}
+
+<h2>@ViewData["Title"]</h2>
+<h3 class="text-danger">Ви впевнені, що хочете видалити цей автомобіль?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.НомернийЗнак)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.НомернийЗнак)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Марка)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Марка)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Модель)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Модель)
+        </dd>
+        <dt class = "col-sm-3">
+            @Html.DisplayNameFor(model => model.Колір)
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Колір)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Видалити" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Повернутись до списку</a>
+    </form>
+</div>

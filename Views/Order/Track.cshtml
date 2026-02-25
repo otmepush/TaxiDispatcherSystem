@@ -1,0 +1,44 @@
+@model TaxiDispatcherSystem.Models.Order
+
+@{
+    ViewData["Title"] = "Відстеження Замовлення #" + Model.Id;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <h4>Поточний Статус Поїздки</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-3">
+            Адреса Відправлення
+        </dt>
+        <dd class = "col-sm-9">
+            @Model.МісцеВідправлення?.Адреса
+        </dd>
+        
+        <dt class = "col-sm-3">
+            Адреса Призначення
+        </dt>
+        <dd class = "col-sm-9">
+            @Model.МісцеПризначення?.Адреса
+        </dd>
+        
+        <dt class = "col-sm-3">
+            Статус
+        </dt>
+        <dd class = "col-sm-9">
+            <strong style="color: @(Model.Статус == "ВИКОНАНО" ? "green" : "orange");">@Model.Статус</strong>
+        </dd>
+        
+        <dt class = "col-sm-3">
+            Призначений Водій
+        </dt>
+        <dd class = "col-sm-9">
+            @(Model.ПризначенийВодій?.Ім_я ?? "Водій ще не призначений")
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Create">Створити нове замовлення</a>
+</div>

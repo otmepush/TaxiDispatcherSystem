@@ -1,0 +1,55 @@
+@model IEnumerable<TaxiDispatcherSystem.Models.Order>
+
+@{
+    ViewData["Title"] = "Панель Диспетчера: Нові Замовлення";
+    // Отримуємо список доступних водіїв, переданий через ViewBag
+    var availableDrivers = ViewBag.AvailableDrivers as List<TaxiDispatcherSystem.Models.Driver>;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>Замовлень в очікуванні: @Model.Count()</p>
+<p>
+    <a asp-action="Report" class="btn btn-info">Переглянути звіт</a>
+</p>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Замовлення</th>
+            <th>Відправлення</th>
+            <th>Призначення</th>
+            <th>Час створення</th>
+            <th>Призначити Водія</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.МісцеВідправлення?.Адреса</td>
+                <td>@item.МісцеПризначення?.Адреса</td>
+                <td>@item.ЧасСтворення.ToString("HH:mm:ss")</td>
+                <td>
+                    <form asp-action="Assign" method="post">
+                        <input type="hidden" name="orderId" value="@item.Id" />
+                        
+                        <select name="driverId" class="form-control" required>
+                            <option value="">-- Оберіть водія --</option>
+                            @if (availableDrivers != null)
+                            {
+                                @foreach (var driver in availableDrivers)
+                                {
+                                    <option value="@driver.Id">@driver.Ім_я @driver.Прізвище (ID: @driver.Id)</option>
+                                }
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-success mt-2">Призначити</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,8 @@
+@{
+    ViewData["Title"] = "Результат Запиту";
+}
+<h3>@ViewBag.QueryTitle</h3>
+<div class="alert alert-info">
+    @ViewBag.Result
+</div>
+<a asp-action="Index">Повернутися до звітів</a>
