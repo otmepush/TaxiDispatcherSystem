@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaxiDispatcherSystem.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using TaxiDispatcherSystem.Patterns;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Account/Login"; // Куди перенаправляти, якщо не залогінений
         options.AccessDeniedPath = "/Account/AccessDenied"; // Куди, якщо немає прав
     });
+builder.Services.AddScoped<OrderStatusTracker>(provider => 
+{
+    var tracker = new OrderStatusTracker();
+    // Підписуємо спостерігачів
+    tracker.AddObserver(new ClientSmsNotifierObserver());
+    tracker.AddObserver(new SystemLogObserver());
+    return tracker;
+});
 
 var app = builder.Build();
 
